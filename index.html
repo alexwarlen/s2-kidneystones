@@ -1,0 +1,34 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Satisfaction', 'Stress'],
+          [ .79,      .53],
+          [ .79,      .41],
+          [ .61,     .33],
+          [ .71,      .19],
+          [ .86,      .33],
+          [ .82,    .40]
+        ]);
+
+        var options = {
+          title: 'Employee Satisfaction vs Low Stress',
+          hAxis: {title: 'Percentage of Company with High Job Satisfaction'},
+          vAxis: {title: 'Percentage of Company with Low Stress'},
+          legend: 'none'
+        };
+
+        var chart = new google.visualization.ScatterChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="chart_div" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>
