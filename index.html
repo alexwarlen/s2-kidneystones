@@ -11,9 +11,9 @@
     google.load("visualization", "1", {packages:['corechart']});
 	
 	var visualization;
-  var title
-  var hAxis;
-  var yAxis;
+  var title = 'Correlation between High Job Satisfaction and Low Job Stress';
+  var hAxis = {title: 'Percentage of Company High Job Satisfaction'};
+  var vAxis = {title: 'Percentage of Company with Low Job Satisfaction'};
 
     function drawVisualization() {
 	  
@@ -33,9 +33,9 @@
         return;
       }
 	  var options = {
-	  	title: 'Correlation between % High Job Satisfaction and %Low Job Stress',
-	  	hAxis: {title: '% High Job Satisfaction'},
-	  	yAxis: {title: '% Low Job Satisfaction'},
+	  	title: title,
+	  	hAxis: hAxis,
+	  	vAxis: vAxis,
 	  	bubble: {
 	  		textStyle: {
 	  			auraColor: 'none',
@@ -61,7 +61,14 @@
 	<h2>Shark Bowl</h2>
       </div>
 
-	<div class="container" id="visualization" style="width: 1300px; height: 700px"></div>
+  <div class="container" id="visualization" style="width: 1000px; height: 700px"></div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12" id="visualization"></div>
+    </div>
+  </div>
+
 	
  </div>
 
