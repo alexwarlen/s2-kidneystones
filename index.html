@@ -10,18 +10,41 @@
     <script type="text/javascript">
     google.load("visualization", "1", {packages:['corechart']});
 	
+  var xQuery = 'Stress';
+  var yQuery = 'Satisfaction';
+  var bubbleQuery = 'CEO';
+
 	var visualization;
   var title = 'Correlation between High Job Satisfaction and Low Job Stress';
-  var xAxis = {title: 'Percentage of Company High Job Satisfaction'};
-  var yAxis = {title: 'Percentage of Company with Low Job Stress'};
+  var xAxis = {title: 'Percentage of Company with Low Job Stress'};
+  var yAxis = {title: 'Percentage of Company High Job Satisfaction'};
+
+  function changeX() {
+    var x = document.getElementById('x-axis');
+    xQuery = x.options[x.selectedIndex].value;
+  }
+
+  function changeY() {
+    var y = document.getElementById('y-axis');
+    yQuery = y.options[y.selectedIndex].value;
+  }
+
+  function changeBubble() {
+    var z = document.getElementById('bubbledata');
+    bubbleQuery = z.options[z.selectedIndex].value;
+  }
+
 
     function drawVisualization() {
-	  
 	   var query = new google.visualization.Query(
         'https://www.google.com/fusiontables/gvizdata?tq=');
     
+      console.log('xQuery is ' + xQuery);
+      console.log('yQuery is ' + yQuery);
+
       // Apply query language.
-      query.setQuery('SELECT Name, Satisfaction, Stress, Sector, Median FROM 1_ZO3XZ_dB0S2-y-CgdUZ6yHSkgvmlWtPOTwjYtVr WHERE Stress > 0' );
+      query.setQuery('SELECT Name, ' + xQuery + ', ' + yQuery + ' , Sector,' +  bubbleQuery + 
+        ' FROM 1_ZO3XZ_dB0S2-y-CgdUZ6yHSkgvmlWtPOTwjYtVr WHERE Stress > 0' );
     
       // Send the query with a callback function.
       query.send(handleQueryResponse);
@@ -59,12 +82,58 @@
     <div class="page-header">
 	     <h1>Kidney Stones</h1>
 	     <h2>Shark Bowl</h2>
+       <p>Welcome to Shark Bowl, an interactive webpage to visualize data about the 96 largest companies in the United States. Please choose data sets to compare via the drop-down menus below and clicking Submit. Once the graph has been generated, be sure to hover over the data points for more information! Thanks for stopping by!
     </div>
+
+    <div class="row">
+    <div class="col-md-4">
+      <h5> X-Axis </h5>
+    </div>
+    <div class="col-md-4">
+      <h5> Y-Axis </h5>
+    </div>
+    <div class="col-md-4">
+      <h5> Bubble Size </h5>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <select class="form-control" id="x-axis" onchange="changeX()">
+        <option value ="Stress">Stress</option>
+        <option value="Satisfaction">Satisfaction</option>
+        <option value="Meaning">Job Meaning</option>
+        <option value="Median">Median Pay</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <select class="form-control" id="y-axis" onchange="changeY()">
+        <option value="Satisfaction">Satisfaction</option>
+        <option value ="Stress">Stress</option>
+        <option value="Meaning">Job Meaning</option>
+        <option value="Median">Median Pay</option>
+      </select>
+    </div>
+        <div class="col-md-4">
+      <select class="form-control" id="bubbledata" onchange="changeBubble()">
+        <option value="CEO">CEO Pay</option>
+        <option value ="Revenue">Company Revenue</option>
+        <option value="Ratio">CEO : Avg. Worker Pay Ratio</option>
+        <option value="Median">Median Pay</option>
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <button class="btn btn-primary" onClick="drawVisualization()">Submit</button>
+    </div>
+  </div>
 
     <div class="col-md-12" id="visualization" style="width: 1000px; height: 700px">
     </div>
 
 </div>
+
+
 
  <footer class="footer">
    <div class="container">
