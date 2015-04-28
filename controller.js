@@ -15,55 +15,65 @@ var title = String(longStrings['Stress']) + ' vs. ' + String(longStrings['Satisf
 var xAxis = {title: 'Percentage of Company with Low Job Stress'};
 var yAxis = {title: 'Percentage of Company High Job Satisfaction'};
 
-function changeX() {
-    var x = document.getElementById('x-axis');
-    xQuery = x.options[x.selectedIndex].value;
-    xAxis = {title: String(longStrings[xQuery])};
-}
-function changeY() {
-    var y = document.getElementById('y-axis');
-    yQuery = y.options[y.selectedIndex].value;
-    yAxis = {title: String(longStrings[yQuery])};
-    title = String(longStrings[xQuery]) + ' vs. ' + String(longStrings[yQuery]);
-}
-function changeBubble() {
-    var z = document.getElementById('bubbledata');
-    bubbleQuery = z.options[z.selectedIndex].value;
-}
-function drawVisualization() {
-	   var query = new google.visualization.Query(
-                                                  'https://www.google.com/fusiontables/gvizdata?tq=');
-    
-    console.log('xQuery is ' + xQuery);
-    console.log('yQuery is ' + yQuery);
-    // Apply query language.
-    query.setQuery('SELECT Name, ' + xQuery + ', ' + yQuery + ' , Sector,' +  bubbleQuery +
-                   ' FROM 1_ZO3XZ_dB0S2-y-CgdUZ6yHSkgvmlWtPOTwjYtVr WHERE Stress > 0' );
-    
-    // Send the query with a callback function.
-    query.send(handleQueryResponse);
-}
 
-function handleQueryResponse(response) {
-    if (response.isError()) {
-        alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
-        return;
+var namespace = namespace || {};
+
+namespace.module = {};
+
+namespace.module = function() {
+    
+    namespace.module.onSubmit = function() {
+        var x = document.getElementById('x-axis');
+        xQuery = x.options[x.selectedIndex].value;
+        xAxis = {title: String(longStrings[xQuery])};
+        
+        var y = document.getElementById('y-axis');
+        yQuery = y.options[y.selectedIndex].value;
+        yAxis = {title: String(longStrings[yQuery])};
+        title = String(longStrings[xQuery]) + ' vs. ' + String(longStrings[yQuery]);
+        
+        var z = document.getElementById('bubbledata');
+        bubbleQuery = z.options[z.selectedIndex].value;
+        
     }
-    var options = {
-	  	title: title,
-	  	hAxis: xAxis,
-	  	vAxis: yAxis,
-	  	bubble: {
-        textStyle: {
-        auraColor: 'none',
-        fontSize: .25,
+    
+    namespace.module.drawVisualization = function() {
+        var query = new google.visualization.Query(
+                                                   'https://www.google.com/fusiontables/gvizdata?tq=');
+        
+        console.log('xQuery is ' + xQuery);
+        console.log('yQuery is ' + yQuery);
+        // Apply query language.
+        query.setQuery('SELECT Name, ' + xQuery + ', ' + yQuery + ' , Sector,' +  bubbleQuery +
+                       ' FROM 1_ZO3XZ_dB0S2-y-CgdUZ6yHSkgvmlWtPOTwjYtVr WHERE Stress > 0' );
+        
+        // Send the query with a callback function.
+        query.send(namespace.module.handleQueryResponse);
+    }
+    
+    namespace.module.handleQueryResponse = function (response) {
+        if (response.isError()) {
+            alert('Error in query: ' + response.getMessage() + ' ' + response.getDetailedMessage());
+            return;
         }
-        }
-    };
-    var data = response.getDataTable();
-    visualization = new google.visualization.BubbleChart(document.getElementById('visualization'));
-    visualization.draw(data, options);
-}
+        var options = {
+            title: title,
+            hAxis: xAxis,
+            vAxis: yAxis,
+            bubble: {
+                textStyle: {
+                auraColor: 'none',
+                fontSize: .25,
+                }
+            }
+        };
+        
+        var data = response.getDataTable();
+        visualization = new google.visualization.BubbleChart(document.getElementById('visualization'));
+        visualization.draw(data, options);
+    }
+};
 
+namespace.module();
 
-google.setOnLoadCallback(drawVisualization);
+google.setOnLoadCallback(namespace.module.drawVisualization);

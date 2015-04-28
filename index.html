@@ -46,7 +46,7 @@
 
   <div class="row">
     <div class="col-md-4">
-      <select class="form-control" id="x-axis" onchange="changeX()">
+      <select class="form-control" id="x-axis" onchange="namespace.module.onSubmit()">
         <option value ="Stress">Stress</option>
         <option value="Satisfaction">Satisfaction</option>
         <option value="Meaning">Job Meaning</option>
@@ -54,7 +54,7 @@
       </select>
     </div>
     <div class="col-md-4">
-      <select class="form-control" id="y-axis" onchange="changeY()">
+      <select class="form-control" id="y-axis" onchange="namespace.module.onSubmit()">
         <option value="Satisfaction">Satisfaction</option>
         <option value ="Stress">Stress</option>
         <option value="Meaning">Job Meaning</option>
@@ -62,7 +62,7 @@
       </select>
     </div>
         <div class="col-md-4">
-      <select class="form-control" id="bubbledata" onchange="changeBubble()">
+      <select class="form-control" id="bubbledata" onchange="namespace.module.onSubmit()">
         <option value="CEO">CEO Pay</option>
         <option value ="Revenue">Company Revenue</option>
         <option value="Ratio">CEO : Avg. Worker Pay Ratio</option>
@@ -71,7 +71,7 @@
     </div>
 
     <div class="col-md-4">
-      <button class="btn btn-primary" onClick="drawVisualization()">Submit</button>
+      <button class="btn btn-primary" onClick="namespace.module.drawVisualization()">Submit</button>
     </div>
   </div>
 
